@@ -23,19 +23,28 @@ body {
 
 .card {
   padding: 2px;
-  border: 1px black solid;
+  border: 1px lightgray solid;
   box-shadow: var(--shadow);
-  margin-bottom: 10px;
+  margin-top: 13px;
   border-radius: 8px;
+}
+
+.card-title {
+  font-size: large;
 }
 
 .hit-icon::before {
   content: "⌖ ";
 }
+.hit-icon {
+  font-family: math;
+}
 
 .dmg-icon::before {
-  /* content: "🔥/🖤"; */
   content: "🔥/🖤 ";
+}
+.dmg-icon {
+  font-family: math;
 }
 
 
@@ -62,13 +71,11 @@ body {
 .roll-def-hit {
   grid-area: hit;
   justify-self: center;
-  font-family: math;
 }
 
 .roll-def-dmg {
   grid-area: dmg;
   justify-self: center;
-  font-family: math;
 }
 
 button {
@@ -101,16 +108,17 @@ button {
   grid-area: results;
   align-self: end;
   vertical-align: bottom;
+  justify-self: end;
 }
 
 .roll-result {
+  width: 16em;
   display: grid;
-  border: 1px black solid;
 
   background-color: lightgray;
 
   grid-template-columns: 50px 1fr 1fr;
-  grid-template-rows: 2em 2em;
+  grid-template-rows: 2em auto;
   grid-template-areas:
     "icon label     roll-type"
     "icon hit       dmg";
@@ -126,10 +134,12 @@ button {
 
 .roll-result-hit-rolls {
   grid-area: hit;
+  justify-self: center;
 }
 
 .roll-result-dmg-roll {
   grid-area: dmg;
+  justify-self: center;
 }
 
 .roll-result-icon {

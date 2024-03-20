@@ -53,6 +53,5 @@
         roll-def])
       (c/<recent-rolls>
        [regular-roll-result
-        ;;advantage-result
-        ;;disadvantage-result
-        ])]))})
+        advantage-result
+        disadvantage-result])]))})

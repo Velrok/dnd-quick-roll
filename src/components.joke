@@ -15,7 +15,7 @@
   [{:keys [hit dmg icon label]}]
   [:div.roll-def.card
    [:div.roll-def-icon [:img {:src icon}]]
-   [:div.roll-def-label label]
+   [:div.roll-def-label.card-title label]
    [:div.roll-def-hit.hit-icon hit]
    [:div.roll-def-dmg.dmg-icon dmg]
    [:button.roll-def-advantage "A"]
@@ -31,7 +31,7 @@
   [{:keys [label icon hit-rolls dmg-roll type]}]
   [:div.roll-result.card
    [:div.roll-result-icon [:img {:src icon}]]
-   [:div.roll-result-label label]
+   [:div.roll-result-label.card-title label]
    [:div.roll-result-type [:span.tag type]]
    [:div.roll-result-hit-rolls
     (for [{:keys [roll explain]} hit-rolls]
