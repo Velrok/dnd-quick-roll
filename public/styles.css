@@ -1,0 +1,167 @@
+:root {
+  --primary: #0C85B5;
+  --secondary: #9FB39E;
+  --complementary: #F8B569;
+  --danger: #E82F41;
+  --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+body {
+  font-family: cursive;
+}
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5em auto 1fr;
+  grid-template-areas:
+    "title"
+    "definitions"
+    "results";
+}
+
+.card {
+  padding: 2px;
+  border: 1px black solid;
+  box-shadow: var(--shadow);
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.hit-icon::before {
+  content: "⌖ ";
+}
+
+.dmg-icon::before {
+  /* content: "🔥/🖤"; */
+  content: "🔥/🖤 ";
+}
+
+
+.roll-def {
+  display: grid;
+
+  grid-template-columns: 50px 1fr 1fr 50px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "icon label label advantage_button"
+    "icon hit dmg disadvantage_button";
+}
+
+.roll-def-icon {
+  grid-area: icon;
+  justify-self: center;
+  align-self: center;
+}
+
+.roll-def-label {
+  grid-area: label;
+}
+
+.roll-def-hit {
+  grid-area: hit;
+  justify-self: center;
+  font-family: math;
+}
+
+.roll-def-dmg {
+  grid-area: dmg;
+  justify-self: center;
+  font-family: math;
+}
+
+button {
+  font-weight: bold;
+  border-radius: 5px;
+  height: 2em;
+  border: none;
+  box-shadow: var(--shadow);
+  color: white;
+}
+
+.roll-def-advantage {
+  grid-area: advantage_button;
+  margin-bottom: 3px;
+  background-color: var(--primary);
+}
+
+.roll-def-disadvantage {
+  grid-area: disadvantage_button;
+  height: 2em;
+  background-color: var(--complementary);
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+.roll-results-list {
+  grid-area: results;
+  align-self: end;
+  vertical-align: bottom;
+}
+
+.roll-result {
+  display: grid;
+  border: 1px black solid;
+
+  background-color: lightgray;
+
+  grid-template-columns: 50px 1fr 1fr;
+  grid-template-rows: 2em 2em;
+  grid-template-areas:
+    "icon label     roll-type"
+    "icon hit       dmg";
+}
+
+.roll-result-hit-label {
+  grid-area: hit-label;
+}
+
+.roll-result-dmg-label {
+  grid-area: dmg-label;
+}
+
+.roll-result-hit-rolls {
+  grid-area: hit;
+}
+
+.roll-result-dmg-roll {
+  grid-area: dmg;
+}
+
+.roll-result-icon {
+  grid-area: icon;
+  justify-self: center;
+  align-self: center;
+}
+
+.roll-result-label {
+  grid-area: label;
+}
+
+.tag {
+  color: white;
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  font-family: monospace;
+  font-size: small;
+  background-color: var(--primary);
+  border-radius: 1em;
+}
+
+.roll-result-type {
+  grid-area: roll-type;
+  justify-self: end;
+  align-self: right;
+}
+
+.roll-result-hit-roll-explain {
+  margin-left: 0.3em;
+}
+
+.roll-result-dmg-roll-explain {
+  margin-left: 0.3em;
+}
