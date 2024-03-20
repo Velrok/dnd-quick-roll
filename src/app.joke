@@ -1,0 +1,58 @@
+(ns app)
+
+(require 'handler-dispatch)
+(require '[handler-dispatch :refer [handle]])
+(require '[components :as c])
+
+(require '(joker [hiccup :refer [html]]))
+
+(def roll-def
+  {:hit "1d20+3"
+   :label "Longsword"
+   :icon "icons/Weapon_and_Tools/Shovel.png"
+   :dmg "1d8+1"})
+
+(def advantage-result
+  {:label "Longsword"
+   :icon "icons/Weapon_and_Tools/Shovel.png"
+   :type :advantage
+   :hit-rolls [{:roll 18 :explain "(15+3)"}
+               {:roll 10 :explain "(7+3)"}]
+
+   :dmg-roll {:roll 6 :explain "(5+1)"}})
+
+(def regular-roll-result
+  {:label "Longsword"
+   :icon "icons/Weapon_and_Tools/Shovel.png"
+   :type :regular
+   :hit-rolls [{:roll 15 :explain "(12+3)"}]
+   :dmg-roll {:roll 6 :explain "(5+1)"}})
+
+(def disadvantage-result
+  {:label "Longsword"
+   :icon "icons/Weapon_and_Tools/Shovel.png"
+   :type :disadvantage
+   :hit-rolls [{:roll 18 :explain "(15+3)"}
+               {:roll 10 :explain "(7+3)"}]
+
+   :dmg-roll {:roll 6 :explain "(5+1)"}})
+
+(defmethod handle [:get "/"]
+  [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body
+   (html
+    (c/<layout>
+     {:title "D&D Quick Roll"}
+     [:div.app
+      [:h1 "D&D Quick Roll"]
+      (c/<roll-def-list>
+       [roll-def
+        ;;roll-def
+        roll-def])
+      (c/<recent-rolls>
+       [regular-roll-result
+        ;;advantage-result
+        ;;disadvantage-result
+        ])]))})

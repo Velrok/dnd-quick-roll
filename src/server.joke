@@ -1,0 +1,26 @@
+(require '(joker [hiccup :refer [html]]))
+(require '(joker [http :as http]))
+(require 'handler-dispatch)
+(require '[handler-dispatch :refer [handle]])
+(require 'app)
+
+(defn http-app
+  [request]
+  (println "⬅️" request)
+  (let [response (handle request)]
+    (println "➡️"
+             (update response :body
+                     #(subs %
+                            0
+                            (min (count %) 2000))))
+    response))
+
+(defn main
+  [[port & args]]
+  (let [port (or port 8080)
+        addr (str "0.0.0.0:" port)]
+    (println)
+    (println "Starting server on" addr)
+    (http/start-server addr http-app)))
+
+(main *command-line-args*)

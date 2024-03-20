@@ -1,0 +1,49 @@
+(ns components)
+
+(defn <layout>
+  [{:keys [:title]} & body]
+  [:html
+   [:head
+    [:title title]
+    [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
+    [:meta {:charset "UTF-8"}]
+    [:link {:rel "stylesheet" :href "styles.css"}]
+    [:script {:src "https://unpkg.com/htmx.org@1.9.10"}]]
+   body])
+
+(defn <roll-def>
+  [{:keys [hit dmg icon label]}]
+  [:div.roll-def.card
+   [:div.roll-def-icon [:img {:src icon}]]
+   [:div.roll-def-label label]
+   [:div.roll-def-hit.hit-icon hit]
+   [:div.roll-def-dmg.dmg-icon dmg]
+   [:button.roll-def-advantage "A"]
+   [:button.roll-def-disadvantage "D"]])
+
+(defn <roll-def-list>
+  [roll-defs]
+  [:div.roll-def-list
+   (for [roll-def roll-defs]
+     (<roll-def> roll-def))])
+
+(defn <roll-result>
+  [{:keys [label icon hit-rolls dmg-roll type]}]
+  [:div.roll-result.card
+   [:div.roll-result-icon [:img {:src icon}]]
+   [:div.roll-result-label label]
+   [:div.roll-result-type [:span.tag type]]
+   [:div.roll-result-hit-rolls
+    (for [{:keys [roll explain]} hit-rolls]
+      [:div.roll-result-hit-roll.hit-icon
+       [:span.roll-result-hit-roll-roll roll]
+       [:span.roll-result-hit-roll-explain explain]])]
+   [:div.roll-result-dmg-roll.dmg-icon
+    [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
+    [:span.roll-result-dmg-roll-explain (:explain dmg-roll)]]])
+
+(defn <recent-rolls>
+  [roll-results]
+  [:div.roll-results-list
+   (for [roll-result roll-results]
+     (<roll-result> roll-result))])

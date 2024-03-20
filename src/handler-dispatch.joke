@@ -1,0 +1,38 @@
+(ns handler-dispatch)
+
+(require '(joker [hiccup :refer [html]]))
+(require '(joker [os :refer [exists?]]))
+(require '(joker [filepath :refer [ext]]))
+
+(defmulti handle
+  (fn [request]
+    (let [{:keys [request-method uri]} request]
+      [request-method uri])))
+
+(defn guess-mime-type
+  [filename]
+  (case (ext filename)
+    ".html" "text/html"
+    ".css" "text/css"
+    ".js" "application/javascript"
+    ".png" "image/png"
+    ".jpeg" "image/jpeg"
+    ".jpg" "image/jpeg"
+    ".gif" "image/gif"
+    ".ico" "image/x-icon"
+    ".txt" "text/plain"
+    "application/octet-stream"))
+
+(defmethod handle :default
+  [request]
+  (let [{:keys [:uri]} request]
+    (if (exists? (str "./public" uri))
+      {:status 200
+       :headers {"Content-Type" (guess-mime-type uri)}
+       :body (slurp (str "./public" uri))}
+
+      {:status 404
+       :headers {"Content-Type" "text/html"}
+       :body (html [:html
+                    [:body
+                     [:h1 "Not Found"]]])})))
