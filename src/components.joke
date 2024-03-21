@@ -13,13 +13,16 @@
 
 (defn <roll-def>
   [{:keys [hit dmg icon label]}]
-  [:div.roll-def.card
-   [:div.roll-def-icon [:img {:src icon}]]
-   [:div.roll-def-label.card-title label]
-   [:div.roll-def-hit.hit-icon hit]
-   [:div.roll-def-dmg.dmg-icon dmg]
-   [:button.roll-def-advantage "A"]
-   [:button.roll-def-disadvantage "D"]])
+  [:form
+   [:input {:type "hidden" :name "hit" :value hit}]
+   [:input {:type "hidden" :name "dmg" :value dmg}]
+   [:div.roll-def.card {:hx-post "/roll" :hx-target ".roll-results-list" :hx-swap "beforeend"}
+    [:div.roll-def-icon [:img {:src icon}]]
+    [:div.roll-def-label.card-title label]
+    [:div.roll-def-hit.hit-icon hit]
+    [:div.roll-def-dmg.dmg-icon dmg]
+    [:button.roll-def-advantage {:hx-trigger "click consume" :hx-post "/roll-advantage"} "A"]
+    [:button.roll-def-disadvantage {:hx-trigger "click consume" :hx-post "/roll-disadvantage"} "D"]]])
 
 (defn <roll-def-list>
   [roll-defs]
