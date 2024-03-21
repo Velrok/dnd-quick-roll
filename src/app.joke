@@ -5,7 +5,9 @@
 (require '[components :as c])
 
 (require '(joker [hiccup :refer [html]]))
+(require '(joker [strconv :refer [parse-int]]))
 (require '(joker [json :as json]))
+(require '(joker [string :as string]))
 (require '(joker [walk :refer [keywordize-keys]]))
 
 (def roll-def
@@ -40,7 +42,7 @@
    :dmg-roll {:roll 6 :explain "(5+1)"}})
 
 (defmethod handle [:get "/"]
-  [request]
+  [_request]
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body
@@ -65,11 +67,29 @@
         {:label "Healing Word"
          :icon "icons/Weapon_and_Tools/Shovel.png"
          :hit ""
-         :dmg "1d4+4"}
-        roll-def
-        ;;roll-def
-        roll-def])
+         :dmg "1d4+4"}])
       (c/<recent-rolls> [])]))})
+
+(defn parse-roll-spec
+  [spec]
+  (let [[_ dice-count dice-sides modifier]
+        (re-matches #"(\d+)d(\d+)([+-]\d+)?" spec)]
+    {:dice-count (parse-int dice-count 0 8)
+     :dice-sides (parse-int dice-sides 0 8)
+     :modifier-str (or modifier "")
+     :modifier (if (or
+                    (= nil modifier)
+                    (= "" modifier))
+                 0
+                 (parse-int modifier 0 8))}))
+
+(defn roll-spec
+  [spec]
+  (let [{:keys [dice-count dice-sides modifier modifier-str]} (parse-roll-spec spec)
+        results (for [_ (range dice-count)]
+                  (inc (rand-int dice-sides)))]
+    {:roll (+ (reduce + results) modifier)
+     :explain (str (string/join " +" results) modifier-str)}))
 
 (defn parse-json-body
   [request]
@@ -77,7 +97,7 @@
 
 (defmethod handle [:post "/roll"]
   [request]
-  (let [{:keys [icon label]} (parse-json-body request)]
+  (let [{:keys [hit dmg icon label]} (parse-json-body request)]
     {:status 200
      :headers {"Content-Type" "text/html"}
      :body
@@ -85,6 +105,8 @@
       (c/<roll-result>
        {:label label
         :icon icon
-        :hit-rolls [{:roll 0 :explain ""}]
-        :dmg-roll {:roll 0 :explain ""}
+        :hit-rolls (if (= hit "")
+                     []
+                     [(roll-spec hit)])
+        :dmg-roll (roll-spec dmg)
         :type "regular"}))}))

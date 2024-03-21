@@ -46,10 +46,12 @@
       (for [{:keys [roll explain]} hit-rolls]
         [:div.roll-result-hit-roll.hit-icon
          [:span.roll-result-hit-roll-roll roll]
-         [:span.roll-result-hit-roll-explain explain]])]
+         [:span.roll-result-hit-roll-explain
+          (str "(" explain ")")]])]
      [:div.roll-result-dmg-roll.dmg-icon
       [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
-      [:span.roll-result-dmg-roll-explain (:explain dmg-roll)]]]))
+      [:span.roll-result-dmg-roll-explain
+       (str "(" (:explain dmg-roll) ")")]]]))
 
 (defn <recent-rolls>
   [roll-results]
