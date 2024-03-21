@@ -5,6 +5,8 @@
 (require '[components :as c])
 
 (require '(joker [hiccup :refer [html]]))
+(require '(joker [json :as json]))
+(require '(joker [walk :refer [keywordize-keys]]))
 
 (def roll-def
   {:hit "1d20+3"
@@ -55,3 +57,21 @@
        [regular-roll-result
         advantage-result
         disadvantage-result])]))})
+
+(defn parse-json-body
+  [request]
+  (some-> request :body json/read-string keywordize-keys))
+
+(defmethod handle [:post "/roll"]
+  [request]
+  (let [{:keys [icon label]} (parse-json-body request)]
+    {:status 200
+     :headers {"Content-Type" "text/html"}
+     :body
+     (html
+      (c/<roll-result>
+       {:label label
+        :icon icon
+        :hit-rolls [{:roll 0 :explain ""}]
+        :dmg-roll {:roll 0 :explain ""}
+        :type "regular"}))}))

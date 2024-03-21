@@ -8,12 +8,15 @@
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
     [:meta {:charset "UTF-8"}]
     [:link {:rel "stylesheet" :href "styles.css"}]
-    [:script {:src "https://unpkg.com/htmx.org@1.9.10"}]]
+    [:script {:src "https://unpkg.com/htmx.org@1.9.10"}]
+    [:script {:src "https://unpkg.com/htmx.org@1.9.11/dist/ext/json-enc.js"}]]
    body])
 
 (defn <roll-def>
   [{:keys [hit dmg icon label]}]
-  [:form
+  [:form {:hx-ext "json-enc"}
+   [:input {:type "hidden" :name "icon" :value icon}]
+   [:input {:type "hidden" :name "label" :value label}]
    [:input {:type "hidden" :name "hit" :value hit}]
    [:input {:type "hidden" :name "dmg" :value dmg}]
    [:div.roll-def.card {:hx-post "/roll" :hx-target ".roll-results-list" :hx-swap "beforeend"}
