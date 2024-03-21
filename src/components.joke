@@ -35,18 +35,21 @@
 
 (defn <roll-result>
   [{:keys [label icon hit-rolls dmg-roll type]}]
-  [:div.roll-result.card
-   [:div.roll-result-icon [:img {:src icon}]]
-   [:div.roll-result-label.card-title label]
-   [:div.roll-result-type [:span.tag type]]
-   [:div.roll-result-hit-rolls
-    (for [{:keys [roll explain]} hit-rolls]
-      [:div.roll-result-hit-roll.hit-icon
-       [:span.roll-result-hit-roll-roll roll]
-       [:span.roll-result-hit-roll-explain explain]])]
-   [:div.roll-result-dmg-roll.dmg-icon
-    [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
-    [:span.roll-result-dmg-roll-explain (:explain dmg-roll)]]])
+  (let [elem-id (str "roll-result-" (rand-int 1000000))]
+    [:div.roll-result.card
+     {:id elem-id
+      :onClick (str "document.getElementById('" elem-id "').remove()")}
+     [:div.roll-result-icon [:img {:src icon}]]
+     [:div.roll-result-label.card-title label]
+     [:div.roll-result-type [:span.tag type]]
+     [:div.roll-result-hit-rolls
+      (for [{:keys [roll explain]} hit-rolls]
+        [:div.roll-result-hit-roll.hit-icon
+         [:span.roll-result-hit-roll-roll roll]
+         [:span.roll-result-hit-roll-explain explain]])]
+     [:div.roll-result-dmg-roll.dmg-icon
+      [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
+      [:span.roll-result-dmg-roll-explain (:explain dmg-roll)]]]))
 
 (defn <recent-rolls>
   [roll-results]

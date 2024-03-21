@@ -50,13 +50,26 @@
      [:div.app
       [:h1 "D&D Quick Roll"]
       (c/<roll-def-list>
-       [roll-def
+       [{:label "Crossbow, light"
+         :icon "icons/Weapon_and_Tools/Shovel.png"
+         :hit "1d20+4"
+         :dmg "1d8+2"}
+        {:label "Dagger"
+         :icon "icons/Weapon_and_Tools/Shovel.png"
+         :hit "1d20+4"
+         :dmg "1d4+2"}
+        {:label "Vicious Mockery"
+         :icon "icons/Weapon_and_Tools/Shovel.png"
+         :hit ""
+         :dmg "1d4"}
+        {:label "Healing Word"
+         :icon "icons/Weapon_and_Tools/Shovel.png"
+         :hit ""
+         :dmg "1d4+4"}
+        roll-def
         ;;roll-def
         roll-def])
-      (c/<recent-rolls>
-       [regular-roll-result
-        advantage-result
-        disadvantage-result])]))})
+      (c/<recent-rolls> [])]))})
 
 (defn parse-json-body
   [request]
