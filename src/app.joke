@@ -110,3 +110,41 @@
                      [(roll-spec hit)])
         :dmg-roll (roll-spec dmg)
         :type "regular"}))}))
+
+(defmethod handle [:post "/roll-advantage"]
+  [request]
+  (let [{:keys [hit dmg icon label]} (parse-json-body request)
+        rolls (if (= "" hit)
+                []
+                (reverse (sort-by :roll
+                                  [(roll-spec hit)
+                                   (roll-spec hit)])))]
+    {:status 200
+     :headers {"Content-Type" "text/html"}
+     :body
+     (html
+      (c/<roll-result>
+       {:label label
+        :icon icon
+        :hit-rolls rolls
+        :dmg-roll (roll-spec dmg)
+        :type "advantage"}))}))
+
+(defmethod handle [:post "/roll-disadvantage"]
+  [request]
+  (let [{:keys [hit dmg icon label]} (parse-json-body request)
+        rolls (if (= "" hit)
+                []
+                (reverse (sort-by :roll
+                                  [(roll-spec hit)
+                                   (roll-spec hit)])))]
+    {:status 200
+     :headers {"Content-Type" "text/html"}
+     :body
+     (html
+      (c/<roll-result>
+       {:label label
+        :icon icon
+        :hit-rolls rolls
+        :dmg-roll (roll-spec dmg)
+        :type "disadvantage"}))}))

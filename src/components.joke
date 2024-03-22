@@ -41,13 +41,42 @@
       :onClick (str "document.getElementById('" elem-id "').remove()")}
      [:div.roll-result-icon [:img {:src icon}]]
      [:div.roll-result-label.card-title label]
-     [:div.roll-result-type [:span.tag type]]
+     [:div.roll-result-type
+      [:span.tag
+       {:class (str "roll-result-type-" type)}
+       type]]
      [:div.roll-result-hit-rolls
-      (for [{:keys [roll explain]} hit-rolls]
-        [:div.roll-result-hit-roll.hit-icon
-         [:span.roll-result-hit-roll-roll roll]
-         [:span.roll-result-hit-roll-explain
-          (str "(" explain ")")]])]
+      (case type
+        "regular"
+        (let [[{:keys [roll explain]}] hit-rolls]
+          [:div.roll-result-hit-roll.hit-icon
+           [:span.roll-result-hit-roll-roll roll]
+           [:span.roll-result-hit-roll-explain
+            (str "(" explain ")")]])
+
+        "advantage"
+        (let [[better worse] hit-rolls]
+          (list [:div.roll-result-hit-roll.hit-icon.highlight-better
+                 [:span.roll-result-hit-roll-roll (:roll better)]
+                 [:span.roll-result-hit-roll-explain
+                  (str "(" (:explain better) ")")]]
+
+                [:div.roll-result-hit-roll.hit-icon
+                 [:span.roll-result-hit-roll-roll (:roll worse)]
+                 [:span.roll-result-hit-roll-explain
+                  (str "(" (:explain worse) ")")]]))
+
+        "disadvantage"
+        (let [[better worse] hit-rolls]
+          (list [:div.roll-result-hit-roll.hit-icon
+                 [:span.roll-result-hit-roll-roll (:roll better)]
+                 [:span.roll-result-hit-roll-explain
+                  (str "(" (:explain better) ")")]]
+
+                [:div.roll-result-hit-roll.hit-icon.highlight-worse
+                 [:span.roll-result-hit-roll-roll (:roll worse)]
+                 [:span.roll-result-hit-roll-explain
+                  (str "(" (:explain worse) ")")]])))]
      [:div.roll-result-dmg-roll.dmg-icon
       [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
       [:span.roll-result-dmg-roll-explain

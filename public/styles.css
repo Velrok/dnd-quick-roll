@@ -112,7 +112,7 @@ button {
 }
 
 .roll-result {
-  width: 16em;
+  width: 19em;
   display: grid;
 
   background-color: lightgray;
@@ -136,6 +136,22 @@ button {
   grid-area: hit;
   justify-self: center;
 }
+
+.roll-result-hit-roll {
+  padding: 3px 0.5em;
+}
+
+.highlight-better {
+  background-color: var(--primary);
+  border-radius: 12px;
+}
+
+.highlight-worse {
+  background-color: var(--complementary);
+  border-radius: 12px;
+}
+
+
 
 .roll-result-dmg-roll {
   grid-area: dmg;
@@ -166,6 +182,18 @@ button {
   grid-area: roll-type;
   justify-self: end;
   align-self: right;
+}
+
+.roll-result-type-regular {
+  background-color: var(--secondary);
+}
+
+.roll-result-type-advantage {
+  background-color: var(--primary);
+}
+
+.roll-result-type-disadvantage {
+  background-color: var(--complementary);
 }
 
 .roll-result-hit-roll-explain {
