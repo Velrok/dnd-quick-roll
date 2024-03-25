@@ -78,9 +78,10 @@
                  [:span.roll-result-hit-roll-explain
                   (str "(" (:explain worse) ")")]])))]
      [:div.roll-result-dmg-roll.dmg-icon
-      [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
-      [:span.roll-result-dmg-roll-explain
-       (str "(" (:explain dmg-roll) ")")]]]))
+      (when dmg-roll
+        [:span.roll-result-dmg-roll-roll (:roll dmg-roll)]
+        [:span.roll-result-dmg-roll-explain
+         (str "(" (:explain dmg-roll) ")")])]]))
 
 (defn <recent-rolls>
   [roll-results]

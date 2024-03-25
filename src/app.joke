@@ -96,11 +96,14 @@
 
 (defn roll-spec
   [spec]
-  (let [{:keys [dice-count dice-sides modifier modifier-str]} (parse-roll-spec spec)
-        results (for [_ (range dice-count)]
-                  (inc (rand-int dice-sides)))]
-    {:roll (+ (reduce + results) modifier)
-     :explain (str (string/join " +" results) modifier-str)}))
+  (if (= "" spec)
+    ;; TODO: probably need a validate spec we should use instead
+    nil
+    (let [{:keys [dice-count dice-sides modifier modifier-str]} (parse-roll-spec spec)
+          results (for [_ (range dice-count)]
+                    (inc (rand-int dice-sides)))]
+      {:roll (+ (reduce + results) modifier)
+       :explain (str (string/join " +" results) modifier-str)})))
 
 (defn parse-json-body
   [request]
@@ -116,9 +119,7 @@
       (c/<roll-result>
        {:label label
         :icon icon
-        :hit-rolls (if (= hit "")
-                     []
-                     [(roll-spec hit)])
+        :hit-rolls (remove nil? [(roll-spec hit)])
         :dmg-roll (roll-spec dmg)
         :type "regular"}))}))
 
