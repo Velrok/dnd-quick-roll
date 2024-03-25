@@ -50,7 +50,10 @@
     (c/<layout>
      {:title "D&D Quick Roll"}
      [:div.app
-      [:h1 "D&D Quick Roll"]
+      [:div
+       [:h1 "D&D Quick Roll"]
+       [:div.dice-top.dice-a "⚁"]
+       [:div.dice-top.dice-b "⚄"]]
       (c/<roll-def-list>
        [{:label "Crossbow, light"
          :icon "icons/Weapon_and_Tools/Shovel.png"
