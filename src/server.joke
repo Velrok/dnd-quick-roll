@@ -6,13 +6,11 @@
 
 (defn http-app
   [request]
-  (println "⬅️" request)
+  (println "⬅️ " request)
   (let [response (handle request)]
-    (println "➡️"
+    (println "➡️ "
              (update response :body
-                     #(subs %
-                            0
-                            (min (count %) 2000))))
+                     #(subs % 0 (min (count %) 2000))))
     response))
 
 (defn main
